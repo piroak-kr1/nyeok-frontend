@@ -1,4 +1,4 @@
-package com.simelvia.nyeok.ui.theme
+package com.piroak.nyeok.ui.theme
 
 import android.app.Activity
 import android.os.Build

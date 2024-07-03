@@ -1,4 +1,4 @@
-package com.simelvia.nyeok.ui.theme
+package com.piroak.nyeok.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

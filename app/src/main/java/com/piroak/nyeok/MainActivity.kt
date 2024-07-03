@@ -1,4 +1,4 @@
-package com.simelvia.nyeok
+package com.piroak.nyeok
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,7 +14,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.simelvia.nyeok.ui.theme.NyeokTheme
+import com.piroak.nyeok.ui.theme.NyeokTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -12,34 +12,50 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.piroak.nyeok.ui.theme.NyeokTheme
+import com.piroak.nyeok.ui.view.SampleViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NyeokTheme { // A surface container using the 'background' color from the theme
+                val viewModel = SampleViewModel()
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    EchoTest()
+                    val uiState = viewModel.uiState.collectAsState()
+                    EchoTest(
+                        onSend = { value: String -> viewModel.sendEcho(value) },
+                        responseMessage = uiState.value
+                    )
                 }
             }
         }
     }
 }
 
-
 @Composable
-fun EchoTest(modifier: Modifier = Modifier) {
+fun EchoTest(onSend: (String) -> Unit, responseMessage: String, modifier: Modifier = Modifier) {
+    var inputMessage by remember {
+        mutableStateOf("")
+    }
+
     Column {
         Row {
-            TextField(value = "xx", onValueChange = { /*TODO*/ })
-            Button(onClick = { /*TODO*/ }) {}
+            TextField(value = inputMessage, onValueChange = { value -> inputMessage = value })
+            Button(onClick = {
+                onSend(inputMessage)
+            }) { Text("Send") }
         }
-        Text("Server response: ")
+        Text("Server response: $responseMessage")
     }
 }
 
@@ -47,6 +63,6 @@ fun EchoTest(modifier: Modifier = Modifier) {
 @Composable
 fun EchoTestPreview() {
     NyeokTheme {
-        EchoTest()
+        EchoTest({ _ -> }, "Example Response")
     }
 }

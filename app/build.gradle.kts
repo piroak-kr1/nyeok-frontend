@@ -1,6 +1,14 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+}
+
+fun loadProperties(fileName: String) : Properties {
+    val properties = Properties()
+    properties.load(rootProject.file(fileName).inputStream())
+    return properties
 }
 
 android {
@@ -18,6 +26,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        
+        // Load variables from properties file
+        val secretProperties = loadProperties(".secret.properties")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretProperties.getProperty("KAKAO_NATIVE_APP_KEY")
     }
 
     buildTypes {

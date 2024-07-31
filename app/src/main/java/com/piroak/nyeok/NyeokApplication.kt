@@ -3,6 +3,7 @@ package com.piroak.nyeok
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import com.kakao.vectormap.KakaoMapSdk
 
 class NyeokApplication : Application() {
     // NOTE: Never changed after initialization
@@ -13,6 +14,7 @@ class NyeokApplication : Application() {
         super.onCreate()
         container = DefaultAppContainer()
         env = Env(kakaoNativeAppKey = getMetaDataValue("KAKAO_NATIVE_APP_KEY"))
+        KakaoMapSdk.init(this, env.kakaoNativeAppKey)
     }
 
     private fun getMetaDataValue(name: String): String {

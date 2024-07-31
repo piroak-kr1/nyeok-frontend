@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.piroak.nyeok"
-        minSdk = 33
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -30,6 +30,13 @@ android {
         // Load variables from properties file
         val secretProperties = loadProperties(".secret.properties")
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretProperties.getProperty("KAKAO_NATIVE_APP_KEY")
+        
+        ndk {
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("armeabi-v7a")
+//            abiFilters.add("x86")
+//            abiFilters.add("x86_64")
+        }
     }
 
     buildTypes {
@@ -86,4 +93,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars")
     // Retrofit with Gson Converter
     implementation("com.squareup.retrofit2:converter-gson")
+    
+    // KakaoMap SDK
+    implementation("com.kakao.maps.open:android:2.9.5")
+    implementation("com.kakao.sdk:v2-common:2.20.3")
 }

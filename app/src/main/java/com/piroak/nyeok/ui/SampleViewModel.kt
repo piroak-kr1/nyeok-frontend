@@ -1,4 +1,4 @@
-package com.piroak.nyeok.ui.view
+package com.piroak.nyeok.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

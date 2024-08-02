@@ -32,6 +32,7 @@ android {
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretProperties.getProperty("KAKAO_NATIVE_APP_KEY")
         
         ndk {
+            // KakaoMap for Android only supports arm
             abiFilters.add("arm64-v8a")
             abiFilters.add("armeabi-v7a")
 //            abiFilters.add("x86")
@@ -71,7 +72,9 @@ android {
 dependencies {
     // Default
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
+    val lifeCycleVersion = "2.8.4"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifeCycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifeCycleVersion")
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation(platform("androidx.compose:compose-bom:2024.06.00"))
     implementation("androidx.compose.ui:ui")

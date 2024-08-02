@@ -9,12 +9,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class NyeokApplicationTest {
-    private lateinit var application: NyeokApplication
+class GlobalApplicationTest {
+    private lateinit var application: GlobalApplication
 
     @Before
     fun setUp() {
-        application = ApplicationProvider.getApplicationContext() as NyeokApplication
+        application = ApplicationProvider.getApplicationContext() as GlobalApplication
     }
 
     @Test

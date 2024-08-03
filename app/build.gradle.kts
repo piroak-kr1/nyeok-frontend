@@ -100,4 +100,7 @@ dependencies {
     // KakaoMap SDK
     implementation("com.kakao.maps.open:android:2.9.5")
     implementation("com.kakao.sdk:v2-common:2.20.3")
+    
+    // Google Play Services
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }

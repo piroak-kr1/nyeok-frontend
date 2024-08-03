@@ -2,23 +2,27 @@ package com.piroak.nyeok
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.kakao.vectormap.KakaoMapSdk
+import com.piroak.nyeok.data.LocationOrientationProvider
 import com.piroak.nyeok.permission.PermissionManager
+import kotlinx.coroutines.MainScope
 
 class GlobalApplication : Application() {
+    // No need to cancel this scope as it'll be torn down with the process
+    val applicationScope = MainScope()
+    var currentActivity: ComponentActivity? = null
+
     // NOTE: Never change container & env after initialization
     lateinit var container: AppContainer
     lateinit var env: Env
-    var currentActivity: ComponentActivity? = null
 
     override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer(context = this)
+        container = DefaultAppContainer(globalApplication = this)
         env = Env(kakaoNativeAppKey = getMetaDataValue("KAKAO_NATIVE_APP_KEY"))
         KakaoMapSdk.init(/* context = */ this, /* appKey = */ env.kakaoNativeAppKey)
 
@@ -65,11 +69,19 @@ class GlobalApplication : Application() {
  *
  */
 interface AppContainer {
+    val locationOrientationProvider: LocationOrientationProvider
     val permissionManager: PermissionManager
 }
 
-class DefaultAppContainer(context: Context) : AppContainer {
+class DefaultAppContainer(globalApplication: GlobalApplication) : AppContainer {
+    override val locationOrientationProvider: LocationOrientationProvider by lazy {
+        LocationOrientationProvider(
+            externalScope = globalApplication.applicationScope,
+            globalApplication = globalApplication,
+            permissionManager = permissionManager
+        )
+    }
     override val permissionManager: PermissionManager by lazy {
-        PermissionManager(context)
+        PermissionManager(globalApplication = globalApplication)
     }
 }

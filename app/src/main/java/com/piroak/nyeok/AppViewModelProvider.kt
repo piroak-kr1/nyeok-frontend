@@ -22,6 +22,7 @@ object AppViewModelProvider {
         initializer {
             getContainer().run {
                 DemoViewModel(
+                    locationOrientationProvider = locationOrientationProvider,
                     permissionManager = permissionManager
                 )
             }

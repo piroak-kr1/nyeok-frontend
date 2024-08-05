@@ -51,11 +51,13 @@ fun KakaoCircleMap(
             MapView(context).also {
                 it.start(/* lifeCycleCallback = */ object : MapLifeCycleCallback() {
                     override fun onMapDestroy() {
-                        TODO("Not yet implemented")
+                        Log.e("onMapDestroy", "Destroyed")
+                        kakaoState = null
                     }
     
                     override fun onMapError(error: Exception?) {
-                        TODO("Not yet implemented")
+                        Log.e("onMapError", error.toString())
+                        kakaoState = null
                     }
                 }, /* ...readyCallbacks = */ object : KakaoMapReadyCallback() {
                     override fun onMapReady(kakaoMap: KakaoMap) {
@@ -86,9 +88,7 @@ fun KakaoCircleMap(
                     }
                 })
             }
-        }, update = { _mapView -> 
-            Log.d("GUN", "KakaoCircleMap: update")
-            
+        }, update = { _mapView ->
             if (kakaoState != null) {
                 val (kakaoMap:KakaoMap, userLabel:Label) = kakaoState!!
                 userLabel.moveTo(userLocation)

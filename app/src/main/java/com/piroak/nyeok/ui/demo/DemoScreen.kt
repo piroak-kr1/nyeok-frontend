@@ -1,5 +1,6 @@
 package com.piroak.nyeok.ui.demo
 
+import android.location.Location
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
@@ -22,10 +23,12 @@ import com.piroak.nyeok.permission.PermissionManager
 fun DemoScreen(viewModel: DemoViewModel = viewModel(factory = AppViewModelProvider.Factory)) {
     val locationGranted by viewModel.locationPermissionFlow.collectAsState()
     val orientation: DeviceOrientation? by viewModel.orientationFlow.collectAsState()
+    val location: Location? by viewModel.locationFlow.collectAsState()
 
     Column {
         Text(text = "Orientation: $orientation")
-        
+        Text(text = "Location: $location")
+
         Button(onClick = viewModel::requestLocationPermission) {
             if (locationGranted) {
                 Text("Location Permission is already Granted")

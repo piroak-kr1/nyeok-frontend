@@ -7,11 +7,12 @@ import com.piroak.nyeok.permission.PermissionManager
 import kotlinx.coroutines.flow.StateFlow
 
 class DemoViewModel(
-    private val locationOrientationProvider: LocationOrientationProvider,
+    locationOrientationProvider: LocationOrientationProvider,
     private val permissionManager: PermissionManager
 ) : ViewModel() {
     val locationPermissionFlow: StateFlow<Boolean> = permissionManager.locationPermissionFlow
     val orientationFlow = locationOrientationProvider.orientationFlow
+    val locationFlow = locationOrientationProvider.locationFlow
 
     fun requestLocationPermission() {
         permissionManager.requestPermissions(

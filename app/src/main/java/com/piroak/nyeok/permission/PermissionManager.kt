@@ -15,7 +15,7 @@ class PermissionManager(
     private val globalApplication: GlobalApplication
 ) {
     private val permissions = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+        permission.ACCESS_FINE_LOCATION, permission.ACCESS_COARSE_LOCATION
     )
     private val _grantedStates: Map<String, MutableStateFlow<Boolean>> = permissions.associateWith {
         MutableStateFlow(value = checkPermission(it))

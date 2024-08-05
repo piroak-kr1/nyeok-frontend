@@ -18,6 +18,7 @@ import com.piroak.nyeok.AppViewModelProvider
 import com.piroak.nyeok.GlobalApplication
 import com.piroak.nyeok.data.LocationOrientationProvider
 import com.piroak.nyeok.permission.PermissionManager
+import com.piroak.nyeok.ui.view.KakaoCircleMap
 
 @Composable
 fun DemoScreen(viewModel: DemoViewModel = viewModel(factory = AppViewModelProvider.Factory)) {
@@ -36,6 +37,8 @@ fun DemoScreen(viewModel: DemoViewModel = viewModel(factory = AppViewModelProvid
                 Text("Request Location Permission")
             }
         }
+
+        KakaoCircleMap(location = location, orientation = orientation, modifier = Modifier)
     }
 }
 

@@ -7,8 +7,7 @@ coreKtx = "1.13.1"
 composeBom = "2024.06.00"
 activityCompose = "1.9.1"
 lifeCycle = "2.8.4"
-navigation = "2.7.7"
-navVersion = "2.7.7"
+navigation = "2.8.0-beta06"
 # Non-UI
 retrofitBom = "2.11.0"
 kakaoMap = "2.11.8"
@@ -41,7 +40,7 @@ androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fr
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 androidx-navigation-dynamic-features-fragment = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "navigation" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
-androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navVersion" }
+androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
 # Retrofit
 retrofit-bom = { module = "com.squareup.retrofit2:retrofit-bom", version.ref = "retrofitBom" }
 retrofit = { module = "com.squareup.retrofit2:retrofit" }

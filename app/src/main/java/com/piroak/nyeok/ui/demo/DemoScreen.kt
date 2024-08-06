@@ -26,21 +26,22 @@ import com.piroak.nyeok.AppViewModelProvider
 import com.piroak.nyeok.GlobalApplication
 import com.piroak.nyeok.data.ILocationOrientationProvider
 import com.piroak.nyeok.permission.IPermissionManager
+import com.piroak.nyeok.ui.view.KakaoCircleMap
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 
 @Composable
-fun DemoScreen(viewModel: DemoViewModel = viewModel(factory = AppViewModelProvider.Factory)) {
+fun DemoScreen(
+    viewModel: DemoViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    onClick: () -> Unit = {}
+) {
     // State from outside
     val locationGranted by viewModel.locationPermissionFlow.collectAsState()
     val orientation: DeviceOrientation? by viewModel.orientationFlow.collectAsState()
     val location: Location? by viewModel.locationFlow.collectAsState()
     
-    // Composable local state
-    var searchDialogOpen by remember { mutableStateOf(true) }
-
     Column {
         Button(onClick = viewModel::requestLocationPermission) {
             if (locationGranted) {
@@ -50,42 +51,14 @@ fun DemoScreen(viewModel: DemoViewModel = viewModel(factory = AppViewModelProvid
             }
         }
 
-        Button(onClick = { searchDialogOpen = true }) {
+        Button(onClick = onClick) {
             Text(text = "목적지 설정")
         }
 
         KakaoCircleMap(location = location, orientation = orientation, modifier = Modifier)
     }
-    
-    if (searchDialogOpen) {
-        Dialog(
-            onDismissRequest = { searchDialogOpen = false },
-            DialogProperties(usePlatformDefaultWidth = false)
-        ) {
-            SearchDialog(modifier=Modifier.size(320.dp, 600.dp))
-        }
-    }
 }
 
-@Composable
-fun SearchDialog(modifier: Modifier = Modifier) {
-    var searchQuery by remember { mutableStateOf("") }
-    
-    Surface(modifier=modifier) {
-        Column() {
-            TextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                modifier=Modifier.fillMaxWidth()
-            )
-            Text(text = "Item 1")
-            Text(text = "Item 1")
-            Text(text = "Item 1")
-            Text(text = "Item 1")
-            Text(text = "Item 1")
-        } 
-    }
-}
 
 @Preview
 @Composable

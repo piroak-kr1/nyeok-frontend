@@ -97,9 +97,9 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic.features.fragment)    
-    androidTestImplementation(libs.androidx.navigation.testing)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json) // @Serializable
+    androidTestImplementation(libs.androidx.navigation.testing)
 
     // Retrofit
     implementation(platform(libs.retrofit.bom))

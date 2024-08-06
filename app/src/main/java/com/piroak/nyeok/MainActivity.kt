@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.piroak.nyeok.ui.MainApp
+import com.piroak.nyeok.ui.MainAppNavigator
 import com.piroak.nyeok.ui.theme.NyeokTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    MainApp()
+                    MainAppNavigator()
                 }
             }
         }

@@ -25,8 +25,7 @@ import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
 import com.kakao.vectormap.label.TrackingManager
-
-
+import com.kakao.vectormap.label.TransformMethod
 
 @Composable
 fun KakaoCircleMap(
@@ -73,9 +72,16 @@ fun KakaoCircleMap(
                         // Create Label
                         val labelManager = kakaoMap.labelManager!!
                         val labelStyles:LabelStyles = labelManager.addLabelStyles(
-                            LabelStyles.from(LabelStyle.from(android.R.drawable.arrow_up_float))
+                            LabelStyles.from(
+//                                LabelStyle.from(android.R.drawable.star_on)
+                                LabelStyle.from(com.piroak.nyeok.R.drawable.current_location_10_128)
+                                    .setAnchorPoint(0.5f, 0.5f)
+                            )
                         )!!
-                        val options:LabelOptions = LabelOptions.from(userLocation).setStyles(labelStyles)
+                        val options:LabelOptions = LabelOptions.from(userLocation)
+                            // label stays physically when map is rotated
+                            .setTransform(TransformMethod.AbsoluteRotation)
+                            .setStyles(labelStyles)
                         val layer:LabelLayer = kakaoMap.labelManager!!.layer!!
                         val userLabel = layer.addLabel(options)
                         

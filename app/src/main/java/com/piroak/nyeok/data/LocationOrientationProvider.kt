@@ -63,7 +63,7 @@ class LocationOrientationProvider(
     private val _locationFlow: Flow<Location?> = locationPermissionFlow.flatMapLatest { hasPermission ->
         if (hasPermission) {
             callbackFlow<Location> {
-                val locationRequest = LocationRequest.Builder(5_000).setPriority(Priority.PRIORITY_HIGH_ACCURACY).build()
+                val locationRequest = LocationRequest.Builder(/* intervalMillis = */ 500).setPriority(Priority.PRIORITY_HIGH_ACCURACY).build()
 
                 val locationCallback = object : LocationCallback() {
                     override fun onLocationResult(locationResult: LocationResult) {

@@ -35,6 +35,9 @@ fun DemoScreen(
     val orientation: Float? by viewModel.orientationFlow.collectAsState()
     val destination: LatLng? by viewModel.destinationFlow.collectAsState()
     
+    val straightPath: Pair<Float, Float>? by viewModel.straightPathFlow.collectAsState()
+    val (distance, bearing) = straightPath ?: Pair(null, null)
+    
     Column {
         Button(onClick = viewModel::requestLocationPermission) {
             if (locationGranted) {
@@ -50,6 +53,9 @@ fun DemoScreen(
                 Text(text = "목적지 설정")
             }
         }
+        
+        Text(text = "거리: ${distance ?: "계산 중"}")
+        Text(text = "방위: ${bearing ?: "계산 중"}")
 
         KakaoCircleMap(location = location, orientation = orientation, modifier = Modifier)
     }

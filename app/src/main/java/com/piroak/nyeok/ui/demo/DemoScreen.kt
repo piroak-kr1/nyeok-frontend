@@ -1,20 +1,33 @@
 package com.piroak.nyeok.ui.demo
 
 import android.location.Location
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.android.gms.location.DeviceOrientation
 import com.kakao.vectormap.LatLng
 import com.piroak.nyeok.GlobalApplication
+import com.piroak.nyeok.R
 import com.piroak.nyeok.appViewModel
 import com.piroak.nyeok.data.ILocationOrientationProvider
 import com.piroak.nyeok.permission.IPermissionManager
@@ -31,12 +44,20 @@ fun DemoScreen(
 ) {
     // State from outside
     val locationGranted:Boolean by viewModel.locationPermissionFlow.collectAsState()
-    val location: LatLng? by viewModel.locationFlow.collectAsState()
-    val orientation: Float? by viewModel.orientationFlow.collectAsState()
+    val userLocation: LatLng? by viewModel.locationFlow.collectAsState()
+    val userHeadingDegrees: Float? by viewModel.userHeadingDegreesFlow.collectAsState()
     val destination: LatLng? by viewModel.destinationFlow.collectAsState()
     
     val straightPath: Pair<Float, Float>? by viewModel.straightPathFlow.collectAsState()
     val (distance, bearing) = straightPath ?: Pair(null, null)
+    
+    val compassDirection: Float? = if (userHeadingDegrees != null && bearing != null) {
+        (bearing - userHeadingDegrees!!).let { 
+            if (it < 0) it + 360 else it
+        }
+    } else {
+        null
+    }
     
     Column {
         Button(onClick = viewModel::requestLocationPermission) {
@@ -47,17 +68,43 @@ fun DemoScreen(
             }
         }
 
-        Row {
+        Column {
             Text(text = "목적지: ${destination ?: "설정되지 않음"}")
             Button(onClick = onSearchClick) {
                 Text(text = "목적지 설정")
             }
         }
         
-        Text(text = "거리: ${distance ?: "계산 중"}")
-        Text(text = "방위: ${bearing ?: "계산 중"}")
+        HorizontalDivider()
+        
+        if (distance != null) {
+            Text(text = "$distance m")
+        }
 
-        KakaoCircleMap(location = location, orientation = orientation, modifier = Modifier)
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .size(300.dp)
+                .clip(CircleShape)
+                .border(width = 1.dp, color = Color.Black, shape = CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            if (compassDirection != null) {
+                Image(
+                    painter = painterResource(id = R.drawable.compass_128),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                        .rotate(compassDirection)
+                )
+            }
+            KakaoCircleMap(
+                location = userLocation,
+                orientation = userHeadingDegrees,
+                modifier = Modifier.fillMaxSize(fraction = 0.7f)
+            )
+        }
     }
 }
 

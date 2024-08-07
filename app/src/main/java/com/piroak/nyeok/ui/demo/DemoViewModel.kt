@@ -23,7 +23,7 @@ class DemoViewModel(
             it?.let { LatLng.from(it.latitude, it.longitude) }
         },
     )
-    val orientationFlow: StateFlow<Float?> = makeStateFlow(
+    val userHeadingDegreesFlow: StateFlow<Float?> = makeStateFlow(
         initialValue = null,
         flow = locationOrientationProvider.deviceOrientationFlow.map {
             it?.headingDegrees
@@ -33,7 +33,7 @@ class DemoViewModel(
     val destinationFlow: StateFlow<LatLng?> = _destinationFlow
 
     /**
-     * StateFlow of (distance, bearing)
+     * StateFlow of (distance in meter, bearing in degrees)
      */
     val straightPathFlow: StateFlow<Pair<Float, Float>?> = makeStateFlow(
         initialValue = null,

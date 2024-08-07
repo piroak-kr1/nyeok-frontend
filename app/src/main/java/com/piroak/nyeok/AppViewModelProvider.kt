@@ -30,7 +30,10 @@ object AppViewModelProvider {
         }
         initializer {
             getContainer().run {
-                SearchViewModel()
+                SearchViewModel(
+                    globalApplication = globalApplication,
+                    kakaoLocalApiService = kakaoLocalApiService
+                )
             }
         }
     }

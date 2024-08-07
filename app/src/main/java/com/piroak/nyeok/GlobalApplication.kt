@@ -8,6 +8,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.kakao.vectormap.KakaoMapSdk
 import com.piroak.nyeok.data.LocationOrientationProvider
+import com.piroak.nyeok.network.KakaoLocalApi
+import com.piroak.nyeok.network.KakaoLocalApiService
 import com.piroak.nyeok.permission.PermissionManager
 import kotlinx.coroutines.MainScope
 
@@ -64,7 +66,8 @@ class GlobalApplication : Application() {
         val applicationInfo: ApplicationInfo = packageManager.getApplicationInfo(
             packageName, PackageManager.GET_META_DATA
         )
-        return applicationInfo.metaData.getString(name)!!
+        return applicationInfo.metaData.getString(name)
+            ?: throw IllegalArgumentException("Key not found")
     }
 }
 
@@ -72,11 +75,16 @@ class GlobalApplication : Application() {
  *
  */
 interface AppContainer {
+    val globalApplication: GlobalApplication
+    val kakaoLocalApiService: KakaoLocalApiService
     val locationOrientationProvider: LocationOrientationProvider
     val permissionManager: PermissionManager
 }
 
-class DefaultAppContainer(globalApplication: GlobalApplication) : AppContainer {
+class DefaultAppContainer(override val globalApplication: GlobalApplication) : AppContainer {
+    override val kakaoLocalApiService: KakaoLocalApiService by lazy {
+        KakaoLocalApi.retrofitService
+    }
     override val locationOrientationProvider: LocationOrientationProvider by lazy {
         LocationOrientationProvider(
             externalScope = globalApplication.applicationScope,

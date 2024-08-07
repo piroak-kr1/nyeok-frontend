@@ -50,12 +50,12 @@ fun KakaoCircleMap(
             MapView(context).also {
                 it.start(/* lifeCycleCallback = */ object : MapLifeCycleCallback() {
                     override fun onMapDestroy() {
-                        Log.e("onMapDestroy", "Destroyed")
+                        Log.e("GUN: onMapDestroy", "Destroyed")
                         kakaoState = null
                     }
     
                     override fun onMapError(error: Exception?) {
-                        Log.e("onMapError", error.toString())
+                        Log.e("GUN: onMapError", error.toString())
                         kakaoState = null
                     }
                 }, /* ...readyCallbacks = */ object : KakaoMapReadyCallback() {

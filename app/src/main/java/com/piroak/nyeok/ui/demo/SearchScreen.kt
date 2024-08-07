@@ -7,6 +7,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,19 +20,19 @@ import com.piroak.nyeok.AppViewModelProvider
 
 @Composable
 fun SearchScreen(searchViewModel: SearchViewModel = viewModel(factory = AppViewModelProvider.Factory)) {
-    var searchQuery by remember { mutableStateOf("") }
+    val userInput: String by searchViewModel.userInputFlow.collectAsState()
+    val searchResults: List<String> by searchViewModel.searchResults.collectAsState()
 
     Column {
         TextField(
-            value = searchQuery,
-            onValueChange = { searchQuery = it },
+            value = userInput,
+            onValueChange = searchViewModel::onUserInputChanged,
             modifier = Modifier.fillMaxWidth()
         )
-        Text(text = "Item 1")
-        Text(text = "Item 1")
-        Text(text = "Item 1")
-        Text(text = "Item 1")
-        Text(text = "Item 1")
+
+        searchResults.forEach { result ->
+            Text(text = result)
+        }
     }
 }
 

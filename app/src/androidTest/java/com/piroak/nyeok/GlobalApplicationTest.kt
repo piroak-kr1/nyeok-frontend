@@ -19,14 +19,14 @@ class GlobalApplicationTest {
 
     @Test
     fun printEnvToLogcat() {
-        Log.i("NyeokApplicationTest", "Printing Env")
-        Log.i("NyeokApplicationTest", application.env.toString())
+        Log.i("GUN: NyeokApplicationTest", "Printing Env")
+        Log.i("GUN: NyeokApplicationTest", application.env.toString())
         // NOTE: We cannot test secret values
     }
     
     @Test
     fun printKeyHashToLogcat() {
-        Log.i("NyeokApplicationTest", "Printing KeyHash")
-        Log.i("NyeokApplicationTest", Utility.getKeyHash(context = application))
+        Log.i("GUN: NyeokApplicationTest", "Printing KeyHash")
+        Log.i("GUN: NyeokApplicationTest", Utility.getKeyHash(context = application))
     }
 }

@@ -3,8 +3,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,6 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nyeok"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="KAKAO_NATIVE_APP_KEY"
+            android:value="${KAKAO_NATIVE_APP_KEY}" />
+        <meta-data
+            android:name="KAKAO_REST_API_KEY"
+            android:value="${KAKAO_REST_API_KEY}" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

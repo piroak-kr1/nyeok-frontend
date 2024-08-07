@@ -1,3 +1,8 @@
+/.secret.properties
+
+# Kotlin build output directory
+.kotlin/
+
 # Gradle files
 .gradle/
 build/

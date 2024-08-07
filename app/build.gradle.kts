@@ -1,6 +1,16 @@
+import java.util.Properties
+
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.plugin.serialization)
+}
+
+fun loadProperties(fileName: String) : Properties {
+    val properties = Properties()
+    properties.load(rootProject.file(fileName).inputStream())
+    return properties
 }
 
 android {
@@ -9,14 +19,27 @@ android {
 
     defaultConfig {
         applicationId = "com.piroak.nyeok"
-        minSdk = 33
+        minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "0.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        
+        // Load variables from properties file
+        val secretProperties = loadProperties(".secret.properties")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretProperties.getProperty("KAKAO_NATIVE_APP_KEY")
+        manifestPlaceholders["KAKAO_REST_API_KEY"] = secretProperties.getProperty("KAKAO_REST_API_KEY")
+        
+        ndk {
+            // KakaoMap for Android only supports arm
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("armeabi-v7a")
+//            abiFilters.add("x86")
+//            abiFilters.add("x86_64")
         }
     }
 
@@ -50,28 +73,45 @@ android {
 }
 
 dependencies {
-    // Default
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
-    implementation("androidx.activity:activity-compose:1.9.0")
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")    
+    implementation(libs.androidx.core.ktx)
+    
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    
+    // Testing (Default)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.espresso)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
+
+    // Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.dynamic.features.fragment)    
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json) // @Serializable
+    androidTestImplementation(libs.androidx.navigation.testing)
 
     // Retrofit
-    implementation(platform("com.squareup.retrofit2:retrofit-bom:2.11.0"))
-    implementation("com.squareup.retrofit2:retrofit")
-    // Retrofit with Scalar Converter
-    implementation("com.squareup.retrofit2:converter-scalars")
-    // Retrofit with Gson Converter
-    implementation("com.squareup.retrofit2:converter-gson")
+    implementation(platform(libs.retrofit.bom))
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.scalars)
+    implementation(libs.retrofit.converter.gson)
+    
+    // KakaoMap SDK
+    implementation(libs.kakao.maps)
+    implementation(libs.kakao.v2.common)
+    
+    // Google Play Services
+    implementation(libs.play.services.location)
 }

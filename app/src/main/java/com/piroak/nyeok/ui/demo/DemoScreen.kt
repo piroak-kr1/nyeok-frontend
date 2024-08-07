@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.location.DeviceOrientation
+import com.kakao.vectormap.LatLng
 import com.piroak.nyeok.GlobalApplication
 import com.piroak.nyeok.appViewModel
 import com.piroak.nyeok.data.ILocationOrientationProvider
@@ -29,10 +30,10 @@ fun DemoScreen(
     onSearchClick: () -> Unit = {}
 ) {
     // State from outside
-    val locationGranted by viewModel.locationPermissionFlow.collectAsState()
-    val orientation: DeviceOrientation? by viewModel.orientationFlow.collectAsState()
-    val location: Location? by viewModel.locationFlow.collectAsState()
-    val destination: String? by viewModel.destinationFlow.collectAsState()
+    val locationGranted:Boolean by viewModel.locationPermissionFlow.collectAsState()
+    val location: LatLng? by viewModel.locationFlow.collectAsState()
+    val orientation: Float? by viewModel.orientationFlow.collectAsState()
+    val destination: LatLng? by viewModel.destinationFlow.collectAsState()
     
     Column {
         Button(onClick = viewModel::requestLocationPermission) {
@@ -73,7 +74,7 @@ fun DemoScreenPreview() {
     }
     
     val locationOrientationProvider = object : ILocationOrientationProvider {
-        override val orientationFlow: StateFlow<DeviceOrientation?>
+        override val deviceOrientationFlow: StateFlow<DeviceOrientation?>
             get() = flowOf(null).stateIn(
                 globalApplication.applicationScope,
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),

@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.stateIn
 import java.util.concurrent.Executors
 
 interface ILocationOrientationProvider{
-    val orientationFlow: StateFlow<DeviceOrientation?>
+    val deviceOrientationFlow: StateFlow<DeviceOrientation?>
     val locationFlow: StateFlow<Location?>
 }
 
@@ -58,7 +58,7 @@ class LocationOrientationProvider(
         this.awaitClose { fusedOrientationProviderClient.removeOrientationUpdates(deviceOrientationListener) }
     }
     // Stop collecting from _orientationFlow when there is no subscribers
-    override val orientationFlow: StateFlow<DeviceOrientation?> = _orientationFlow.stateIn(
+    override val deviceOrientationFlow: StateFlow<DeviceOrientation?> = _orientationFlow.stateIn(
         externalScope, started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000), initialValue = null
     )
     

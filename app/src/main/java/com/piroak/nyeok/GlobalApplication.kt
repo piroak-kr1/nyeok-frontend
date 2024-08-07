@@ -23,7 +23,10 @@ class GlobalApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         container = DefaultAppContainer(globalApplication = this)
-        env = Env(kakaoNativeAppKey = getMetaDataValue("KAKAO_NATIVE_APP_KEY"))
+        env = Env(
+            kakaoNativeAppKey = getMetaDataValue("KAKAO_NATIVE_APP_KEY"),
+            kakaoRestApiKey = getMetaDataValue("KAKAO_REST_API_KEY"),
+        )
         KakaoMapSdk.init(/* context = */ this, /* appKey = */ env.kakaoNativeAppKey)
 
         registerActivityLifecycleCallbacks(activityLifecycleCallbacks)

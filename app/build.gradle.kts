@@ -32,6 +32,7 @@ android {
         // Load variables from properties file
         val secretProperties = loadProperties(".secret.properties")
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretProperties.getProperty("KAKAO_NATIVE_APP_KEY")
+        manifestPlaceholders["KAKAO_REST_API_KEY"] = secretProperties.getProperty("KAKAO_REST_API_KEY")
         
         ndk {
             // KakaoMap for Android only supports arm

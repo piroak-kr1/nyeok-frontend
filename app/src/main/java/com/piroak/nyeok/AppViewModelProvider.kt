@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.piroak.nyeok.ui.demo.DemoViewModel
+import com.piroak.nyeok.ui.demo.SearchViewModel
 
 object AppViewModelProvider {
     private var container: AppContainer? = null
@@ -24,6 +25,14 @@ object AppViewModelProvider {
                 DemoViewModel(
                     locationOrientationProvider = locationOrientationProvider,
                     permissionManager = permissionManager
+                )
+            }
+        }
+        initializer {
+            getContainer().run {
+                SearchViewModel(
+                    globalApplication = globalApplication,
+                    kakaoLocalApiService = kakaoLocalApiService
                 )
             }
         }

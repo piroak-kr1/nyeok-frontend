@@ -1,6 +1,5 @@
 package com.piroak.nyeok.ui.view
 
-import android.location.Location
 import android.util.Log
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.shape.CircleShape
@@ -12,7 +11,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.viewinterop.AndroidView
-import com.google.android.gms.location.DeviceOrientation
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -29,18 +27,14 @@ import com.kakao.vectormap.label.TransformMethod
 
 @Composable
 fun KakaoCircleMap(
-    location: Location?,
-    orientation: DeviceOrientation?,
+    location: LatLng?,
+    orientation: Float?,
     modifier: Modifier = Modifier
 ) {
     var kakaoState: Pair<KakaoMap, Label>? by remember { mutableStateOf(null) }
     
-    val userLocation: LatLng = if (location != null) {
-        LatLng.from(location.latitude, location.longitude)
-    } else LatLng.from(37.402005, 127.108621)
-
-    val headingDegrees: Float = orientation?.headingDegrees ?: 0f
-    val userRotation: Float = Math.toRadians(headingDegrees.toDouble()).toFloat()
+    val userLocation: LatLng = location ?: LatLng.from(37.402005, 127.108621)
+    val userRotation: Float = if (orientation != null) { Math.toRadians((orientation).toDouble()).toFloat() } else 0f 
     
     AndroidView(
         modifier = modifier
@@ -50,12 +44,12 @@ fun KakaoCircleMap(
             MapView(context).also {
                 it.start(/* lifeCycleCallback = */ object : MapLifeCycleCallback() {
                     override fun onMapDestroy() {
-                        Log.e("onMapDestroy", "Destroyed")
+                        Log.e("GUN: onMapDestroy", "Destroyed")
                         kakaoState = null
                     }
     
                     override fun onMapError(error: Exception?) {
-                        Log.e("onMapError", error.toString())
+                        Log.e("GUN: onMapError", error.toString())
                         kakaoState = null
                     }
                 }, /* ...readyCallbacks = */ object : KakaoMapReadyCallback() {

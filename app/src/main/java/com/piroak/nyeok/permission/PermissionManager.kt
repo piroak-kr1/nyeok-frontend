@@ -1,6 +1,5 @@
 package com.piroak.nyeok.permission
 
-import android.Manifest
 import android.Manifest.permission
 import android.content.pm.PackageManager
 import android.util.Log
@@ -11,9 +10,14 @@ import com.piroak.nyeok.GlobalApplication
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+interface IPermissionManager {
+    val locationPermissionFlow: StateFlow<Boolean>
+    fun requestPermissions(requests: Array<String>)
+}
+
 class PermissionManager(
     private val globalApplication: GlobalApplication
-) {
+) :IPermissionManager{
     private val permissions = arrayOf(
         permission.ACCESS_FINE_LOCATION, permission.ACCESS_COARSE_LOCATION
     )
@@ -21,12 +25,13 @@ class PermissionManager(
         MutableStateFlow(value = checkPermission(it))
     }
 
-    val locationPermissionFlow: StateFlow<Boolean> =
+    override val locationPermissionFlow: StateFlow<Boolean> =
         getPermissionFlow(permission.ACCESS_FINE_LOCATION)
     
-    fun getPermissionFlow(permission: String): StateFlow<Boolean> = _grantedStates[permission]!!
+    // When we don't want to expose all the flow as fields
+    private fun getPermissionFlow(permission: String): StateFlow<Boolean> = _grantedStates[permission]!!
 
-    fun requestPermissions(requests: Array<String>) {
+    override fun requestPermissions(requests: Array<String>) {
         val activity: ComponentActivity = globalApplication.currentActivity!!
         val activityResultRegistry = activity.activityResultRegistry
 

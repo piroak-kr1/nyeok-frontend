@@ -21,6 +21,9 @@
         <meta-data
             android:name="KAKAO_NATIVE_APP_KEY"
             android:value="${KAKAO_NATIVE_APP_KEY}" />
+        <meta-data
+            android:name="KAKAO_REST_API_KEY"
+            android:value="${KAKAO_REST_API_KEY}" />
 
         <activity
             android:name=".MainActivity"

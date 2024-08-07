@@ -2,28 +2,19 @@ package com.piroak.nyeok.ui.demo
 
 import android.location.Location
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.location.DeviceOrientation
-import com.piroak.nyeok.AppViewModelProvider
 import com.piroak.nyeok.GlobalApplication
+import com.piroak.nyeok.appViewModel
 import com.piroak.nyeok.data.ILocationOrientationProvider
 import com.piroak.nyeok.permission.IPermissionManager
 import com.piroak.nyeok.ui.view.KakaoCircleMap
@@ -34,25 +25,29 @@ import kotlinx.coroutines.flow.stateIn
 
 @Composable
 fun DemoScreen(
-    viewModel: DemoViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    onClick: () -> Unit = {}
+    viewModel: DemoViewModel = appViewModel(),
+    onSearchClick: () -> Unit = {}
 ) {
     // State from outside
     val locationGranted by viewModel.locationPermissionFlow.collectAsState()
     val orientation: DeviceOrientation? by viewModel.orientationFlow.collectAsState()
     val location: Location? by viewModel.locationFlow.collectAsState()
+    val destination: String? by viewModel.destinationFlow.collectAsState()
     
     Column {
         Button(onClick = viewModel::requestLocationPermission) {
             if (locationGranted) {
                 Text("Location Permission 허용됨")
             } else {
-                Text("Location Permission 가 필요합니다")
+                Text("Location Permission 이 필요합니다")
             }
         }
 
-        Button(onClick = onClick) {
-            Text(text = "목적지 설정")
+        Row {
+            Text(text = "목적지: ${destination ?: "설정되지 않음"}")
+            Button(onClick = onSearchClick) {
+                Text(text = "목적지 설정")
+            }
         }
 
         KakaoCircleMap(location = location, orientation = orientation, modifier = Modifier)

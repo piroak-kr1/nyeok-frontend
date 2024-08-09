@@ -1,0 +1,99 @@
+name: Create Release Branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      increment_choice:
+        description: 'Version increment type'
+        required: true
+        type: choice
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      branch_with_tags: main
+      branch_head_for_release: fe-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.branch_with_tags }}
+          # fetch-depth: 1 # NOTE: This only fetches a single commit from master
+          fetch-depth: 0 # Fetch all history to fetch all tags
+
+      - name: Setup Git user
+        uses: fregante/setup-git-user@v2.0.2 # Should be run after checkout (we are in git repository after then)
+      
+      - name: Get Latest Tag
+        id: get_latest_tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1.4.0
+
+      - name: Parse tag
+        id: parse_tag
+        run: |
+          version_name=$(echo "${{ env.tag }}" | sed 's/^v//; s/#.*//')
+          version_code=$(echo "${{ env.tag }}" | sed 's/^.*#//')
+          echo "version_name=$version_name" >> $GITHUB_OUTPUT
+          echo "version_code=$version_code" >> $GITHUB_OUTPUT
+        env:
+          tag: ${{ steps.get_latest_tag.outputs.tag }}
+
+      - name: Next Semvers
+        id: next_semvers
+        uses: "WyriHaximus/github-action-next-semvers@v1.2.1"
+        with:
+          version: ${{ steps.parse_tag.outputs.version_name }}
+
+      - name: Specify next version
+        id: next_version
+        run: |
+          if [ "${{ env.choice }}" = "major" ]; then
+              next_version_name="${{ env.next_major }}"
+          elif [ "${{ env.choice }}" = "minor" ]; then
+              next_version_name="${{ env.next_minor }}"
+          else
+              next_version_name="${{ env.next_patch }}"
+          fi
+          
+          version_code="${{ env.version_code }}"
+          next_version_code=$(( version_code + 1 ))
+          
+          echo "next_version_name=$next_version_name" >> $GITHUB_OUTPUT
+          echo "next_version_code=$next_version_code" >> $GITHUB_OUTPUT
+        env:
+          next_major: ${{ steps.next_semvers.outputs.major }}
+          next_minor: ${{ steps.next_semvers.outputs.minor }}
+          next_patch: ${{ steps.next_semvers.outputs.patch }}
+          choice: ${{ inputs.increment_choice }}
+          version_code: ${{ steps.parse_tag.outputs.version_code }}
+
+      - name: Create release branch and checkout
+        run: |
+          git fetch origin ${{ env.start_branch }}:${{ env.start_branch }}
+          new_branch_name="release-v${{ env.next_version_name }}#${{ env.next_version_code}}"
+          git checkout -b "$new_branch_name" "${{ env.start_branch }}"
+          git push --set-upstream origin "$new_branch_name"
+        env:
+          start_branch: ${{ env.branch_head_for_release }}
+          next_version_name: ${{ steps.next_version.outputs.next_version_name }}
+          next_version_code: ${{ steps.next_version.outputs.next_version_code }}
+
+      - name: Update version in Gradle files
+        run: |
+          sed -i "s/versionCode = .*/versionCode = ${{ env.next_version_code }}/" app/build.gradle.kts
+          sed -i "s/versionName = .*/versionName = ${{ env.next_version_name }}/" app/build.gradle.kts
+        env:
+          start_branch: ${{ env.branch_head_for_release }}
+          next_version_name: ${{ steps.next_version.outputs.next_version_name }}
+          next_version_code: ${{ steps.next_version.outputs.next_version_code }}
+
+      - name: Commit changes
+        run: |
+          git add app/build.gradle.kts
+          git commit -m "Update version to $NEW_TAG"
+          git push origin

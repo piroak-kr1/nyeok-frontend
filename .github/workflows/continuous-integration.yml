@@ -92,6 +92,16 @@ jobs:
 
     # Dependency Analysis Check
 
+    
+    - name: Read file contents
+      id: read_file
+      uses: andstor/file-reader-action@v1
+      with:
+        path: "/home/runner/work/nyeok-frontend/nyeok-frontend/app/build/outputs/androidTest-results/connected/debug/TEST-TestRunner-_app-.xml"
+
+    - name: File contents
+      run: echo "${ steps.read_file.outputs.contents }"
+
     # Report
     - name: Report
       uses: FlickerSoul/android-test-report-actions@v1.3.1

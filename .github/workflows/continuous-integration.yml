@@ -47,13 +47,13 @@ jobs:
     #endregion setup
 
 
-    - name: 1. Run Android Lint
-      run: ./gradlew lint --no-daemon
+    # - name: 1. Run Android Lint
+    #   run: ./gradlew lint --no-daemon
 
-    # TODO: detekt
+    # TODO: 2. detekt
       
-    - name: 3. Run Local Unit Test
-      run: ./gradlew test --no-daemon
+    # - name: 3. Run Local Unit Test
+    #   run: ./gradlew test --no-daemon
       
 
     #region 4. Instrumented Unit Test

@@ -43,8 +43,8 @@ jobs:
     - name: run tests
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: ${{ matrix..api-level }}
-        script: ./gradlew connectedCheck
+        api-level: ${{ matrix.api-level }}
+        script: ./gradlew connectedCheck --no-daemon
 
     # - name: Gradle cache
     #   uses: gradle/actions/setup-gradle@v3

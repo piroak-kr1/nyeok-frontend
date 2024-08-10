@@ -92,17 +92,19 @@ jobs:
 
     # Dependency Analysis Check
 
-    
-    - name: Read file contents
-      id: read_file
-      uses: andstor/file-reader-action@v1
+    - name: Read README.md
+      id: package
+      uses: jaywcjlove/github-action-read-file@main
       with:
         path: "/home/runner/work/nyeok-frontend/nyeok-frontend/app/build/outputs/androidTest-results/connected/debug/TEST-TestRunner-_app-.xml"
       if: ${{ always() }} # Even if previous steps failed
-
-    - name: File contents
-      run: echo "${ steps.read_file.outputs.contents }"
+    
+    - name: Echo package.json
+      run: echo "${{ env.content }}"
+      env:
+        content: ${{ steps.package.outputs.content }}
       if: ${{ always() }} # Even if previous steps failed
+      
 
     # Report
     - name: Report

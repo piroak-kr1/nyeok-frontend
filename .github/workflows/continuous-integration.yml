@@ -92,6 +92,12 @@ jobs:
 
     # Dependency Analysis Check
 
+    # Report
+    - name: Android Test Report
+      uses: asadmansr/android-test-report-action@v1.2.0
+      if: ${{ always() }} # Even if previous steps failed
+
     - name: Stop Gradle
       run: ./gradlew --stop
+      if: ${{ always() }} # Even if previous steps failed
     

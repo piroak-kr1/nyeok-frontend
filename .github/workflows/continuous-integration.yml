@@ -15,11 +15,10 @@ jobs:
     - uses: actions/checkout@v4.1.7
 
     - name: Create .secret.properties file
-      run: |
-        pwd
-        echo "${{ env.encoded_secret }}" | base64 --decode > "${{ pwd }}/${{ env.save_path }}"
+      run:
+        echo "${{ env.secret_file }}" > "${{ env.save_path }}"
       env:
-        encoded_secret: ${{ secrets.secret_properties }}
+        secret_file: ${{ secrets.secret_properties }}
         save_path: '.secret.properties'
     
     - name: Set up JDK 17 # Gradle 8 requires java 17

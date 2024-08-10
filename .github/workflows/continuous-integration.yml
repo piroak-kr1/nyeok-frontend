@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [29, 30, 34]
+        api-level: [29]
 
     steps:
     - uses: actions/checkout@v4.1.7
@@ -23,6 +23,13 @@ jobs:
       env:
         secret_file: ${{ secrets.FILE_SECRET_PROPERTIES }}
         save_path: '.secret.properties'
+    
+    - name: Set up JDK 17 # Gradle 8 requires java 17
+      uses: actions/setup-java@v4.2.2
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'gradle'
     
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -36,7 +43,7 @@ jobs:
     - name: run tests
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 29
+        api-level: ${{ matrix..api-level }}
         script: ./gradlew connectedCheck
 
     # - name: Gradle cache
@@ -70,13 +77,6 @@ jobs:
     #     disable-animations: true
     #     script: ./gradlew connectedCheck
     
-    # # - name: Set up JDK 17 # Gradle 8 requires java 17
-    # #   uses: actions/setup-java@v4.2.2
-    # #   with:
-    # #     java-version: '17'
-    # #     distribution: 'temurin'
-    # #     cache: 'gradle'
-
     # - name: Bulid
     #   run: ./gradlew build
 

@@ -125,6 +125,16 @@ jobs:
     #   uses: asadmansr/android-test-report-action@v1.2.0
       if: ${{ always() }} # Even if previous steps failed
 
+
+    - name: Save AVD to cache # cache is not saving cache if job fails
+      uses: actions/cache/save@v3
+      if: failure() && steps.avd-cache.outputs.cache-hit != 'true'
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-${{ matrix.api-level }}-${{ matrix.target }}
+        
     - name: Stop Gradle
       run: ./gradlew --stop
       if: ${{ always() }} # Even if previous steps failed

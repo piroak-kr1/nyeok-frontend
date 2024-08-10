@@ -98,9 +98,11 @@ jobs:
       uses: andstor/file-reader-action@v1
       with:
         path: "/home/runner/work/nyeok-frontend/nyeok-frontend/app/build/outputs/androidTest-results/connected/debug/TEST-TestRunner-_app-.xml"
+        if: ${{ always() }} # Even if previous steps failed
 
     - name: File contents
       run: echo "${ steps.read_file.outputs.contents }"
+      if: ${{ always() }} # Even if previous steps failed
 
     # Report
     - name: Report

@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [29]
+        api-level: [29, 30, 34]
 
     steps:
     #region setup
@@ -88,7 +88,7 @@ jobs:
         force-avd-creation: false
         emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
-        script: ./gradlew connectedCheck --no-daemon
+        script: ./gradlew connectedAndroidTest --no-daemon
     #endregion Instrumented Unit Test
 
     
@@ -102,6 +102,9 @@ jobs:
       with:
         path: "/home/runner/work/nyeok-frontend/nyeok-frontend/app/build/outputs/androidTest-results/connected/debug/TEST-TestRunner-_app-.xml"
       if: ${{ always() }} # Even if previous steps failed
+
+    - run: rm "/home/runner/work/nyeok-frontend/nyeok-frontend/app/build/outputs/androidTest-results/connected/debug/TEST-TestRunner-_app-.xml"
+      if: ${{ always() }}
     
     - name: Echo package.json
       run: echo "${{ env.content }}"

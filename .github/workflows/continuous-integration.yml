@@ -126,7 +126,7 @@ jobs:
       if: ${{ always() }} # Even if previous steps failed
 
 
-    - name: Save AVD to cache # cache is not saving cache if job fails
+    - name: Post AVD Cache (when failure) # Original post avd cache is not working if job fails
       uses: actions/cache/save@v3
       if: failure() && steps.avd-cache.outputs.cache-hit != 'true'
       with:

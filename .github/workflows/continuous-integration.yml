@@ -18,7 +18,7 @@ jobs:
       run:
         echo "${{ env.secret_file }}" > "${{ env.save_path }}"
       env:
-        secret_file: ${{ secrets.secret_properties }}
+        secret_file: ${{ secrets.FILE_SECRET_PROPERTIES }}
         save_path: '.secret.properties'
     
     - name: Set up JDK 17 # Gradle 8 requires java 17

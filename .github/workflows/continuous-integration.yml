@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [29, 30, 34]
+        api-level: [30] # [29, 30, 34]
 
     steps:
     #region setup

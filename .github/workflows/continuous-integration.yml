@@ -35,7 +35,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: 'gradle'
+        # cache: 'gradle' # Not working well
     
     - name: Gradle cache
       uses: gradle/actions/setup-gradle@v3
@@ -94,7 +94,7 @@ jobs:
 
     # Report
     - name: Report
-      uses: FlickerSoul/android-test-report-actions@v1.2
+      uses: FlickerSoul/android-test-report-actions@v1.3.1
     # - name: Android Test Report
     #   uses: asadmansr/android-test-report-action@v1.2.0
       if: ${{ always() }} # Even if previous steps failed

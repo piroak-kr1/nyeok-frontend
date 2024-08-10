@@ -9,7 +9,7 @@ on:
 
 jobs:
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest # macos runner will support HAXM
 
     steps:
     - uses: actions/checkout@v4.1.7
@@ -40,7 +40,7 @@ jobs:
     - name: Run Local Unit Test
       run: ./gradlew test
       
-    - name: Run Instrumented Unit Test
+    - name: Run Instrumented Unit Test # Recommended to use macos runner for acceleration
       uses: ReactiveCircus/android-emulator-runner@v2.32.0
       with:
        api-level: 30

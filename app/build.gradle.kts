@@ -114,4 +114,7 @@ dependencies {
     
     // Google Play Services
     implementation(libs.play.services.location)
+    // Google Maps Routing
+    implementation(libs.google.routes.api)
+    implementation(libs.grpc.okhttp)
 }

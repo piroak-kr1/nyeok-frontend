@@ -12,6 +12,8 @@ navigation = "2.8.0-beta06"
 retrofitBom = "2.11.0"
 kakaoMap = "2.11.8"
 kakaov2Common = "2.20.3"
+googleRoutesAPI = "1.32.0"
+grpcOkHttp = "1.65.0"
 # Others
 kotlinxSerializationJson = "1.6.2"
 playServicesLocation = "21.3.0"
@@ -52,6 +54,8 @@ kakao-v2-common = { module = "com.kakao.sdk:v2-common", version.ref = "kakaov2Co
 # Others
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+google-routes-api = { module = "com.google.maps:google-maps-routing", version.ref = "googleRoutesAPI" }
+grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpcOkHttp" }
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTestEspresso" }

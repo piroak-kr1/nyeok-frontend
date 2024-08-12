@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.piroak.nyeok.ui.demo.DemoViewModel
 import com.piroak.nyeok.ui.demo.SearchViewModel
+import com.piroak.nyeok.ui.demo.TransitViewModel
 
 object AppViewModelProvider {
     private var container: AppContainer? = null
@@ -33,6 +34,13 @@ object AppViewModelProvider {
                 SearchViewModel(
                     globalApplication = globalApplication,
                     kakaoLocalApiService = kakaoLocalApiService
+                )
+            }
+        }
+        initializer {
+            getContainer().run {
+                TransitViewModel(
+                    cacheManager = cacheManager
                 )
             }
         }

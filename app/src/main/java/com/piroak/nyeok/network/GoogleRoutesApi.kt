@@ -9,6 +9,8 @@ import com.google.maps.routing.v2.RoutesSettings
 import com.google.maps.routing.v2.Units
 import com.google.maps.routing.v2.Waypoint
 import com.google.type.LatLng
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 fun com.piroak.nyeok.common.LatLng.toGoogleLatLng(): LatLng = LatLng.newBuilder().run {
     this.latitude = this@toGoogleLatLng.latitude
@@ -17,10 +19,10 @@ fun com.piroak.nyeok.common.LatLng.toGoogleLatLng(): LatLng = LatLng.newBuilder(
 }
 
 class GoogleRoutesApi {
-    fun getTransitRoute(
+    suspend fun getTransitRoute(
         origin: LatLng,
         destination: LatLng,
-    ): Route {
+    ): Route = withContext(Dispatchers.IO) {
         val routesSettings = RoutesSettings.newBuilder().setHeaderProvider {
             val headers: MutableMap<String, String> = HashMap()
             headers["X-Goog-FieldMask"] = "*"
@@ -46,9 +48,7 @@ class GoogleRoutesApi {
             units = Units.METRIC
             build()
         })
-        
-        // TODO: IndexOutOfBoundsException
-        val route = response.routesList[0]
-        return if (route != null) route else throw KotlinNullPointerException()
+
+        response.routesList.getOrNull(0) ?: throw Exception("No route found")
     }
 }

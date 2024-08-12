@@ -1,6 +1,7 @@
 [versions]
 # Essential
 androidGradlePlugin = "8.5.1"
+assertjCore = "3.26.3"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 # UI
@@ -16,6 +17,7 @@ googleRoutesAPI = "1.32.0"
 grpcOkHttp = "1.65.0"
 # Others
 kotlinxSerializationJson = "1.6.2"
+kotlinxCoroutinesTest = "1.9.0-RC"
 playServicesLocation = "21.3.0"
 junit = "4.13.2"
 androidxTestJunit = "1.2.1"
@@ -26,6 +28,7 @@ androidxTestEspresso = "3.6.1"
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 # Compose
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertjCore" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
@@ -57,6 +60,7 @@ play-services-location = { module = "com.google.android.gms:play-services-locati
 google-routes-api = { module = "com.google.maps:google-maps-routing", version.ref = "googleRoutesAPI" }
 grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpcOkHttp" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTestEspresso" }
 

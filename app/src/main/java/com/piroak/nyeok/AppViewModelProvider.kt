@@ -39,9 +39,7 @@ object AppViewModelProvider {
         }
         initializer {
             getContainer().run {
-                TransitViewModel(
-                    cacheManager = cacheManager
-                )
+                TransitViewModel()
             }
         }
     }

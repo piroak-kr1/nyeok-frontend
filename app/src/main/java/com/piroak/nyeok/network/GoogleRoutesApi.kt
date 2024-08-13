@@ -18,6 +18,10 @@ fun com.piroak.nyeok.common.LatLng.toGoogleLatLng(): LatLng = LatLng.newBuilder(
     build()
 }
 
+fun LatLng.toCommonLatLng(): com.piroak.nyeok.common.LatLng = com.piroak.nyeok.common.LatLng(
+    this.latitude, this.longitude
+)
+
 class GoogleRoutesApi {
     suspend fun getTransitRoute(
         origin: LatLng,

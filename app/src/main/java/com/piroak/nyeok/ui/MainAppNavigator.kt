@@ -12,14 +12,13 @@ import com.piroak.nyeok.appViewModel
 import com.piroak.nyeok.ui.demo.DemoScreen
 import com.piroak.nyeok.ui.demo.DemoViewModel
 import com.piroak.nyeok.ui.demo.SearchScreen
-import com.piroak.nyeok.ui.demo.TransitScreen
 import kotlinx.serialization.Serializable
 
 @Composable
 fun MainAppNavigator() {
     val navController = rememberNavController()
     val navGraph = remember(navController) {
-        navController.createGraph(startDestination = Routes.Transit) {
+        navController.createGraph(startDestination = Routes.Demo) {
             composable<Routes.Demo> {
                 DemoScreen(onSearchClick = { navController.navigate(Routes.Search) })
             }
@@ -36,9 +35,6 @@ fun MainAppNavigator() {
                     navController.popBackStack()
                 })
             }
-            composable<Routes.Transit> {
-                TransitScreen()
-            }
         }
     }
     NavHost(navController, navGraph)
@@ -50,7 +46,4 @@ object Routes {
 
     @Serializable
     object Search
-
-    @Serializable
-    object Transit
 }

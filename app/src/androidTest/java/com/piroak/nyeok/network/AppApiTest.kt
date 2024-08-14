@@ -1,7 +1,9 @@
 package com.piroak.nyeok.network
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.piroak.nyeok.ui.demo.getMockRoute
 import kotlinx.coroutines.test.runTest
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,5 +28,15 @@ class AppApiTest {
     fun echo_korean() = runTest {
         val response = appApiService.echo("한글")
         assertEquals("한글", response)
+    }
+
+    @Test
+    fun computeRoutesSample() = runTest {
+        val mockData = getMockRoute()
+        val response = appApiService.computeRoutesSample()
+
+        assertThat(mockData).usingRecursiveComparison()
+            .ignoringFieldsMatchingRegexes(".*arrivalTime.*", ".*departureTime.*")
+            .ignoringFieldsMatchingRegexes(".*memoized.*").isEqualTo(response.routesList[0])
     }
 }

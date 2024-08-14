@@ -12,13 +12,13 @@ import com.google.type.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-fun com.piroak.nyeok.common.LatLng.toGoogleLatLng(): LatLng = LatLng.newBuilder().run {
+fun com.piroak.nyeok.common.Coordinate.toGoogleLatLng(): LatLng = LatLng.newBuilder().run {
     this.latitude = this@toGoogleLatLng.latitude
     this.longitude = this@toGoogleLatLng.longitude
     build()
 }
 
-fun LatLng.toCommonLatLng(): com.piroak.nyeok.common.LatLng = com.piroak.nyeok.common.LatLng(
+fun LatLng.toCommonLatLng(): com.piroak.nyeok.common.Coordinate = com.piroak.nyeok.common.Coordinate(
     this.latitude, this.longitude
 )
 

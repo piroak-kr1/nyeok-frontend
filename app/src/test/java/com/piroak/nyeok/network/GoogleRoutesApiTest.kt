@@ -8,7 +8,7 @@ import com.google.maps.routing.v2.RoutesClient
 import com.google.maps.routing.v2.RoutesSettings
 import com.google.maps.routing.v2.RoutingPreference
 import com.google.maps.routing.v2.Waypoint
-import com.piroak.nyeok.common.LatLng
+import com.piroak.nyeok.common.Coordinate
 import com.piroak.nyeok.ui.demo.getMockRoute
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
@@ -39,8 +39,8 @@ class GoogleRoutesApiTest {
 
     suspend fun posplex_to_apart(): Route {
         val route = GoogleRoutesApi().getTransitRoute(
-            origin = LatLng(36.0192418, 129.3242741).toGoogleLatLng(),
-            destination = LatLng(36.0214277, 129.3370694).toGoogleLatLng()
+            origin = Coordinate(36.0192418, 129.3242741).toGoogleLatLng(),
+            destination = Coordinate(36.0214277, 129.3370694).toGoogleLatLng()
         )
         return route
     }

@@ -1,14 +1,15 @@
 package com.piroak.nyeok.network
 
-import android.util.Log
 import com.google.maps.routing.v2.ComputeRoutesResponse
 import com.google.maps.routing.v2.Route
 import com.google.protobuf.util.JsonFormat
-import com.piroak.nyeok.ui.demo.mockData
+import com.piroak.nyeok.common.Coordinate
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.lang.reflect.Type
 
@@ -21,7 +22,17 @@ interface AppApiService {
 
     @GET("/compute_routes_sample")
     suspend fun computeRoutesSample(): ComputeRoutesResponse
+
+    @POST("/compute_routes")
+    suspend fun computeRoutes(
+        @Body request: RouteRequest
+    ): ComputeRoutesResponse
 }
+
+data class RouteRequest(
+    val origin: Coordinate,
+    val destination: Coordinate,
+)
 
 class ComputeRoutesResponseConverterFactory : Converter.Factory() {
     companion object {

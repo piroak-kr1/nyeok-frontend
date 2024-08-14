@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 
-fun com.piroak.nyeok.common.LatLng.toKakaoLatLng(): LatLng =
+fun com.piroak.nyeok.common.Coordinate.toKakaoLatLng(): LatLng =
     LatLng.from(this.latitude, this.longitude)
 
 class DemoViewModel(

@@ -4,6 +4,7 @@ import com.google.maps.routing.v2.ComputeRoutesResponse
 import com.google.maps.routing.v2.Route
 import com.google.protobuf.util.JsonFormat
 import com.piroak.nyeok.common.Coordinate
+import com.piroak.nyeok.common.Place
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -27,6 +28,9 @@ interface AppApiService {
     suspend fun computeRoutes(
         @Body request: RouteRequest
     ): ComputeRoutesResponse
+
+    @GET("/place_sample")
+    suspend fun placeSample(): Place
 }
 
 data class RouteRequest(

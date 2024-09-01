@@ -1,16 +1,14 @@
 package com.piroak.nyeok.network
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.maps.routing.v2.ComputeRoutesResponse
 import com.piroak.nyeok.common.Coordinate
+import com.piroak.nyeok.common.Place
 import com.piroak.nyeok.ui.demo.getMockRoute
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
 class AppApiTest {
     private val appApiService = AppApi.retrofitService
 
@@ -54,5 +52,18 @@ class AppApiTest {
         assertThat(mockData).usingRecursiveComparison()
             .ignoringFieldsMatchingRegexes(".*arrivalTime.*", ".*departureTime.*")
             .ignoringFieldsMatchingRegexes(".*memoized.*").isEqualTo(response.routesList[0])
+    }
+
+    @Test
+    fun placeSample() = runTest {
+        val response: Place = appApiService.placeSample()
+        val expected: Place = Place(
+            title = "가미우동",
+            contentid = 2679033,
+            coordinate = Coordinate(37.5547407496, 126.9238735556),
+            firstimage2 = "http://tong.visitkorea.or.kr/cms/resource/64/2676864_image2_1.jpg",
+        )
+
+        assertThat(response).isEqualTo(expected)
     }
 }

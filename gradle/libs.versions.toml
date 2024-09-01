@@ -1,6 +1,7 @@
 [versions]
 # Essential
 androidGradlePlugin = "8.5.1"
+assertjCore = "3.26.3"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 # UI
@@ -8,12 +9,16 @@ composeBom = "2024.06.00"
 activityCompose = "1.9.1"
 lifeCycle = "2.8.4"
 navigation = "2.8.0-beta06"
+coil = "2.7.0"
 # Non-UI
 retrofitBom = "2.11.0"
 kakaoMap = "2.11.8"
 kakaov2Common = "2.20.3"
+googleRoutesAPI = "1.32.0"
+grpcOkHttp = "1.65.0"
 # Others
 kotlinxSerializationJson = "1.6.2"
+kotlinxCoroutinesTest = "1.9.0-RC"
 playServicesLocation = "21.3.0"
 junit = "4.13.2"
 androidxTestJunit = "1.2.1"
@@ -24,6 +29,7 @@ androidxTestEspresso = "3.6.1"
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 # Compose
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertjCore" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
@@ -32,6 +38,8 @@ compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+coil-kt = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 # Lifecycle
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifeCycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifeCycle" }
@@ -52,7 +60,10 @@ kakao-v2-common = { module = "com.kakao.sdk:v2-common", version.ref = "kakaov2Co
 # Others
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+google-routes-api = { module = "com.google.maps:google-maps-routing", version.ref = "googleRoutesAPI" }
+grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpcOkHttp" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTestEspresso" }
 

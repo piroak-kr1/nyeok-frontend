@@ -3,6 +3,8 @@ package com.piroak.nyeok.network
 import com.google.maps.routing.v2.ComputeRoutesResponse
 import com.piroak.nyeok.common.Coordinate
 import com.piroak.nyeok.common.Place
+import com.piroak.nyeok.common.PlaceAndDistance
+import com.piroak.nyeok.common.PlacesResult
 import com.piroak.nyeok.ui.demo.getMockRoute
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
@@ -62,6 +64,46 @@ class AppApiTest {
             contentid = 2679033,
             coordinate = Coordinate(37.5547407496, 126.9238735556),
             firstimage2 = "http://tong.visitkorea.or.kr/cms/resource/64/2676864_image2_1.jpg",
+        )
+
+        assertThat(response).isEqualTo(expected)
+    }
+
+    @Test
+    fun placesClosest() = runTest {
+        val sinchonArtreon = Coordinate(37.5565616, 126.9402326)
+        val response: PlacesResult = appApiService.placesClosest(user_coordinate = sinchonArtreon)
+        val expected: PlacesResult = PlacesResult(
+            place_and_distance_list = listOf(
+                PlaceAndDistance(
+                    place = Place(
+                        contentid = 2910892,
+                        title = "러너스클럽 이대",
+                        coordinate = Coordinate(
+                            latitude = 37.5563603535, longitude = 126.9432995176
+                        ),
+                        firstimage2 = "http://tong.visitkorea.or.kr/cms/resource/12/2889512_image3_1.jpg"
+                    ), distance_meter = 271.90817257F
+                ), PlaceAndDistance(
+                    place = Place(
+                        contentid = 2929386,
+                        title = "EW 스파오 신촌",
+                        coordinate = Coordinate(
+                            latitude = 37.5550492645, longitude = 126.9360168847
+                        ),
+                        firstimage2 = "http://tong.visitkorea.or.kr/cms/resource/53/2878353_image3_1.jpg"
+                    ), distance_meter = 408.57002041F
+                ), PlaceAndDistance(
+                    place = Place(
+                        contentid = 3305576,
+                        title = "안경진정성이마트신촌점",
+                        coordinate = Coordinate(
+                            latitude = 37.5550492645, longitude = 126.9360168847
+                        ),
+                        firstimage2 = "http://tong.visitkorea.or.kr/cms/resource/98/3312998_image3_1.jpg"
+                    ), distance_meter = 408.57002041F
+                )
+            )
         )
 
         assertThat(response).isEqualTo(expected)

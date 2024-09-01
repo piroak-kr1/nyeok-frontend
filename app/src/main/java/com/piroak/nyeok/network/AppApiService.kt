@@ -1,10 +1,10 @@
 package com.piroak.nyeok.network
 
 import com.google.maps.routing.v2.ComputeRoutesResponse
-import com.google.maps.routing.v2.Route
 import com.google.protobuf.util.JsonFormat
 import com.piroak.nyeok.common.Coordinate
 import com.piroak.nyeok.common.Place
+import com.piroak.nyeok.common.PlacesResult
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -31,6 +31,11 @@ interface AppApiService {
 
     @GET("/place_sample")
     suspend fun placeSample(): Place
+
+    @POST("/places_closest")
+    suspend fun placesClosest(
+        @Body user_coordinate: Coordinate
+    ): PlacesResult
 }
 
 data class RouteRequest(

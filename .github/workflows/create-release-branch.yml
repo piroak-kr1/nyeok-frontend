@@ -14,10 +14,13 @@ on:
 
 jobs:
   release:
+    permissions: 
+      contents: write # We need Write permission for github push
     runs-on: ubuntu-latest
     env:
       branch_with_tags: main
       branch_head_for_release: fe-test
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

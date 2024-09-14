@@ -79,6 +79,7 @@ interface AppContainer {
     val kakaoLocalApiService: KakaoLocalApiService
     val locationOrientationProvider: LocationOrientationProvider
     val permissionManager: PermissionManager
+    val cacheManager: CacheManager
 }
 
 class DefaultAppContainer(override val globalApplication: GlobalApplication) : AppContainer {
@@ -94,5 +95,8 @@ class DefaultAppContainer(override val globalApplication: GlobalApplication) : A
     }
     override val permissionManager: PermissionManager by lazy {
         PermissionManager(globalApplication = globalApplication)
+    }
+    override val cacheManager: CacheManager by lazy {
+        CacheManager(globalApplication = globalApplication)
     }
 }

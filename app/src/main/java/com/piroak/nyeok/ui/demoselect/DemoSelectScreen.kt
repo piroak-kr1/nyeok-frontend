@@ -12,17 +12,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.piroak.nyeok.common.Coordinate
 import com.piroak.nyeok.common.Place
+import com.piroak.nyeok.common.PlaceAndDistance
 
 @Composable
 fun DemoSelectScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PlaceOption(place: Place, modifier: Modifier = Modifier) {
+fun PlaceAndDistanceDisplay(placeAndDistance: PlaceAndDistance, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text(text = place.title, modifier = Modifier.align(Alignment.CenterHorizontally))
+        Text(
+            text = placeAndDistance.place.title,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
         AsyncImage(
-            model = place.firstimage2,
+            model = placeAndDistance.place.firstimage2,
             contentDescription = null,
             modifier = Modifier
                 .aspectRatio(1f, matchHeightConstraintsFirst = false)
@@ -35,12 +39,15 @@ fun PlaceOption(place: Place, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun PlaceOptionPreview() {
-    PlaceOption(
+    PlaceAndDistanceDisplay(
+        PlaceAndDistance(
         place = Place(
             title = "가미우동",
             contentid = 2679033,
             coordinate = Coordinate(37.5547407496, 126.9238735556),
             firstimage2 = "http://tong.visitkorea.or.kr/cms/resource/64/2676864_image2_1.jpg",
+        ),
+            distance_meter = 1020.57861F
         )
     )
 }
